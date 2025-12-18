@@ -17,7 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update -y && sudo apt-get -y upgrade
-        sudo apt-get install -y libcifpp-dev libcifpp2 libcifpp-data libboost-all-dev
+        sudo apt-get install -y libcifpp-dev libcifpp2 libcifpp-data libboost-all-dev build-essential
 
     - name: Build the project
       run: |
