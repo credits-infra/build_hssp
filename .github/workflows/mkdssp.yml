@@ -39,14 +39,12 @@ jobs:
         echo "FILE_TO_UPLOAD=$(pwd)/$FILE_NAME" >> $GITHUB_ENV
   
     - name: Create Release
-      uses: softprops/action-gh-release@v2
+      uses: ncipollo/release-action@v1
       with:
-        tag_name: ${{ env.BUILD_DATE }}
-        name: "Toolchain Build ${{ env.BUILD_DATE }}"
+        tag: ${{ env.BUILD_DATE }}
+        name: "mkdssp Build ${{ env.BUILD_DATE }}"
         body: |
           Automated build of dssp ${{ env.GIT_REVISION }}.
 
           This release contains a prebuilt dssp for x86 linux target
-        files: ${{ env.FILE_TO_UPLOAD }}
-        draft: false
-        prerelease: false
+        artifacts: ${{ env.FILE_TO_UPLOAD }}
