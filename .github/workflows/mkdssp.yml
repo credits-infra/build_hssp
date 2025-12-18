@@ -34,7 +34,7 @@ jobs:
         GIT_REVISION=$(git rev-parse --short HEAD)
         FILE_NAME="dssp-$BUILD_DATE-git~$GIT_REVISION.tar.gz"
         tar -zcvf $FILE_NAME ./*
-        echo "BUILD_DATE=${DATE}" >> $GITHUB_ENV
+        echo "BUILD_DATE=${BUILD_DATE}" >> $GITHUB_ENV
         echo "GIT_REVISION=${GIT_REVISION}" >> $GITHUB_ENV
         echo "FILE_TO_UPLOAD=$(pwd)/$FILE_NAME" >> $GITHUB_ENV
   
