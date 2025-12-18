@@ -16,7 +16,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt update -y && sudo apt install libcifpp-dev libcifpp2 libcifpp2-data
+        sudo apt-get update -y && sudo apt-get -y upgrade
+        sudo apt-get install -y libcifpp-dev libcifpp2 libcifpp-data
 
     - name: Build the project
       run: |
