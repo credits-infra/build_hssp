@@ -1,0 +1,51 @@
+name: Build & upload toolchain for Apple Container
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        repository: 'PDB-REDO/dssp'
+        ref: 'legacy-output'
+        path: 'srcroot'
+
+    - name: Install dependencies
+      run: |
+        sudo apt update -y && sudo apt install libcifpp-dev libcifpp2 libcifpp2-data
+
+    - name: Build the project
+      run: |
+        mkdir -p ./srcroot/build/
+        cd ./srcroot/build/
+        cmake ../
+        cmake --build . --config Release
+        ctest -C Release
+  
+    - name: Package and upload
+      run: |
+        cd ./srcroot/build/
+        BUILD_DATE=$(date +%Y%m%d-%H%M%S)
+        GIT_REVISION=$(git rev-parse --short HEAD)
+        FILE_NAME="dssp-$BUILD_DATE-git~$GIT_REVISION.tar.gz"
+        tar -zcvf $FILE_NAME ./*
+        echo "BUILD_DATE=${DATE}" >> $GITHUB_ENV
+        echo "GIT_REVISION=${GIT_REVISION}" >> $GITHUB_ENV
+        echo "FILE_TO_UPLOAD=$(pwd)/$FILE_NAME" >> $GITHUB_ENV
+  
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ env.BUILD_DATE }}
+        name: "Toolchain Build ${{ env.BUILD_DATE }}"
+        body: |
+          Automated build of dssp ${{ env.GIT_REVISION }}.
+
+          This release contains a prebuilt dssp for x86 linux target
+        files: ${{ env.FILE_TO_UPLOAD }}
+        draft: false
+        prerelease: false
