@@ -10,8 +10,8 @@ jobs:
     steps:
     - uses: actions/checkout@v6
       with:
-        repository: 'PDB-REDO/dssp'
-        ref: 'v4.0.3'
+        repository: 'EndCredits/dssp'
+        ref: '4.0.3'
         path: 'srcroot'
 
     - name: Install dependencies
