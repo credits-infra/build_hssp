@@ -1,4 +1,4 @@
-name: Build & upload toolchain for Apple Container
+name: Build & upload mkdssp legacy output
 on:
   workflow_dispatch:
 
